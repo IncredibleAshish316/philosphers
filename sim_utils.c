@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
 /*
  ** @brief      Log each philosopher's life cycle actions into the terminal.
  **

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
 /*
  ** @brief      Clear all the program dynamically allocated memory.
  **
@@ -70,13 +69,13 @@ int	main(int ac, char const *const *av)
 
 	data = NULL;
 	philo = NULL;
-	if (ft_check_args (ac, av) != SUCCESS)
+	if (ft_check_args (ac, av) != 0)
 		return ((void)ft_clear_memory (philo, data), EXIT_FAILURE);
 	if (ft_edgecases (ac, av))
 		return ((void)ft_clear_memory (philo, data), EXIT_SUCCESS);
-	if (ft_init (&philo, &data, ac, av) != SUCCESS)
+	if (ft_init (&philo, &data, ac, av) != 0)
 		return ((void)ft_clear_memory (philo, data), EXIT_FAILURE);
-	if (ft_simulator (philo, data) != SUCCESS)
+	if (ft_simulator (philo, data) != 0)
 		return ((void)ft_clear_memory (philo, data), EXIT_FAILURE);
 	return ((void)ft_clear_memory (philo, data), EXIT_SUCCESS);
 }

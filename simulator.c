@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
 /*
  ** @brief      Destroy all the mutexes.
  **
@@ -98,7 +97,7 @@ static int	ft_monitor(t_philo *philo, t_data *data)
 		i = (i + 1) % data->philo_nb;
 		usleep (200);
 	}
-	return (SUCCESS);
+	return (0);
 }
 
 /*
@@ -121,23 +120,24 @@ int	ft_simulator(t_philo *philo, t_data *data)
 
 	th = malloc (sizeof (pthread_t) * (size_t)data->philo_nb);
 	if (th == NULL)
-		return (FAILURE);
+		return (1);
 	i = -1;
 	while (++i < data->philo_nb)
 	{
 		if (pthread_create (&th[i], 0, ft_simulation, (void *)&philo[i]))
 		{
+			usleep(1);
 			while (i--)
 				pthread_join (th[i], NULL);
-			return ((void)free (th), FAILURE);
+			return ((void)free (th), 1);
 		}
 	}
-	if (ft_monitor (philo, data) != SUCCESS)
+	if (ft_monitor (philo, data) != 0)
 		return ((void)ft_destroy_mutexes (philo, data), (void)free (th),
-			FAILURE);
+			1);
 	i = -1;
 	while (++i < data->philo_nb)
 		if (pthread_join (th[i], NULL))
-			return (FAILURE);
-	return ((void)ft_destroy_mutexes (philo, data), (void)free (th), SUCCESS);
+			return (1);
+	return ((void)ft_destroy_mutexes (philo, data), (void)free (th), 0);
 }

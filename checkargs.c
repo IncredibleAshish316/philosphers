@@ -12,11 +12,13 @@
 
 #include "philo.h"
 
-/*
- ** @brief      Check if a string looks like a positive numeric value.
- **
- ** @param[in]  str the string to check.
- ** @return     True or false.
+/**
+ * The function checks if a given string consists only of numeric characters.
+ * 
+ * @param str The parameter `str` is a pointer to a character array (string) that we want to check if
+ * it contains only numeric characters.
+ * 
+ * @return either TRUE or FALSE.
  */
 
 static int	ft_is_numeric(char const *str)
@@ -33,12 +35,15 @@ static int	ft_is_numeric(char const *str)
 	return (FALSE);
 }
 
-/*
- ** @brief      Check if the user given arguments are valid.
- **
- ** @param[in]  ac the number of arguments given at program start.
- ** @param[in]  av the arguments given at program start.
- ** @return     0 if valid, otherwise 1.
+/**
+ * The function checks if the number of arguments is within a valid range, if the arguments are numeric
+ * and within a valid range, and returns a 0 or 1 status.
+ * 
+ * @param ac The parameter `ac` represents the number of arguments passed to the program.
+ * @param av The parameter `av` is an array of strings, where each string represents a command-line
+ * argument passed to the program.
+ * 
+ * @return either 0 or 1.
  */
 
 int	ft_check_args(int ac, char const *const *av)
@@ -46,25 +51,25 @@ int	ft_check_args(int ac, char const *const *av)
 	if (ac < 5)
 	{
 		write (2, "Error: Too few arguments.\n", 26);
-		return (FAILURE);
+		return (1);
 	}
 	if (ac > 6)
 	{
 		write (2, "Error: Too many arguments.\n", 27);
-		return (FAILURE);
+		return (1);
 	}
 	while (ac-- > 1)
 	{
 		if (ft_is_numeric (av[ac]) == FALSE)
 		{
 			write (2, "Error: Invalid character.\n", 26);
-			return (FAILURE);
+			return (1);
 		}
 		if (ft_atol (av[ac]) > INT_MAX || ft_atol (av[ac]) < 0)
 		{
 			write (2, "Error: Out of range value.\n", 27);
-			return (FAILURE);
+			return (1);
 		}
 	}
-	return (SUCCESS);
+	return (0);
 }

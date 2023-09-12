@@ -30,12 +30,12 @@ static int	ft_start_eating(t_philo *self)
 	if (self->lfork == self->rfork)
 	{
 		pthread_mutex_unlock (&self->fork[ft_min (self->lfork, self->rfork)]);
-		return (FAILURE);
+		return (1);
 	}
 	pthread_mutex_lock (&self->fork[ft_max (self->lfork, self->rfork)]);
 	ft_print (self, "has taken a fork");
 	ft_print (self, "is eating");
-	return (SUCCESS);
+	return (0);
 }
 
 /*
@@ -54,7 +54,7 @@ static int	ft_finish_eating(t_philo *self)
 	pthread_mutex_unlock (&self->fork[ft_max (self->lfork, self->rfork)]);
 	pthread_mutex_unlock (&self->fork[ft_min (self->lfork, self->rfork)]);
 	ft_msleep (self->data->time_slp);
-	return (SUCCESS);
+	return (0);
 }
 
 /*
@@ -70,8 +70,8 @@ static int	ft_finish_eating(t_philo *self)
 
 static int	ft_eating(t_philo *self)
 {
-	if (ft_start_eating (self) != SUCCESS)
-		return (FAILURE);
+	if (ft_start_eating (self) != 0)
+		return (1);
 	pthread_mutex_lock (&self->data->mutex[MEALS]);
 	self->last_meal = ft_abs_time ();
 	self->meals_counter++;
@@ -79,25 +79,24 @@ static int	ft_eating(t_philo *self)
 	if (ft_check_done (self))
 	{
 		ft_finish_eating (self);
-		return (FAILURE);
+		return (1);
 	}
 	ft_msleep (self->data->time_eat);
 	ft_finish_eating (self);
-	return (SUCCESS);
+	return (0);
 }
 
-/*
- ** @brief      Philosopher's life cycle.
- **
- ** - Even philosophers are delayed to prevent any conflict during the forks
- **   taking moment.
- **
- ** XXX
- ** Passing from ft_msleep (containing a while usleep(10)) to usleep made
- ** me pass from 700% CPU use to <20%.
- **
- ** @param[in]  arg the philosopher's data.
- ** @return     A NULL pointer.
+
+
+/**
+ * The function `ft_simulation` is a thread function that simulates the behavior of a philosopher,
+ * where they eat, think, and check if they have died.
+ * 
+ * @param arg The "arg" parameter is a void pointer that is passed to the function. In this case, it is
+ * casted to a "t_philo" pointer, which means it is expected to point to a structure of type "t_philo".
+ * The function then uses this pointer to access the data
+ * 
+ * @return NULL.
  */
 
 void	*ft_simulation(void *arg)
@@ -114,7 +113,7 @@ void	*ft_simulation(void *arg)
 	{
 		if (ft_check_died(self))
 			break ;
-		if (ft_eating (self) != SUCCESS)
+		if (ft_eating (self) != 0)
 			break ;
 		ft_print (self, "is thinking");
 		ft_msleep (self->data->time_thk);

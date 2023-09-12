@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
 /*
  ** @brief      Init s_philo an array of philosophers.
  **
@@ -38,7 +37,7 @@ int	ft_init_philo(t_philo **philo, t_data *data)
 
 	fork = malloc (sizeof (pthread_mutex_t) * ((size_t)data->philo_nb));
 	if (fork == NULL)
-		return (FAILURE);
+		return (1);
 	i = 0;
 	while (i < data->philo_nb)
 		pthread_mutex_init (&fork[i++], NULL);
@@ -57,7 +56,7 @@ int	ft_init_philo(t_philo **philo, t_data *data)
 		(*philo)[i].data = data;
 		i++;
 	}
-	return (SUCCESS);
+	return (0);
 }
 
 /*
@@ -77,12 +76,12 @@ int	ft_init_data_mutexes(t_data **data)
 
 	mutex = malloc (sizeof (pthread_mutex_t) * ((size_t)M_NUM));
 	if (mutex == NULL)
-		return (FAILURE);
+		return (1);
 	i = 0;
 	while (i < M_NUM)
 		pthread_mutex_init (&mutex[i++], NULL);
 	(*data)->mutex = mutex;
-	return (SUCCESS);
+	return (0);
 }
 
 /*
@@ -116,8 +115,8 @@ int	ft_init_data(t_data **data, int ac, char const *const *av)
 	(*data)->done = FALSE;
 	(*data)->died = FALSE;
 	if (ft_init_data_mutexes (data))
-		return (FAILURE);
-	return (SUCCESS);
+		return (1);
+	return (0);
 }
 
 /*
@@ -134,15 +133,15 @@ int	ft_init(t_philo **philo, t_data **data, int ac, char const *const *av)
 {
 	*data = (t_data *)malloc (sizeof (t_data));
 	if (*data == NULL)
-		return (FAILURE);
+		return (1);
 	(*data)->mutex = NULL;
-	if (ft_init_data (data, ac, av) != SUCCESS)
-		return (FAILURE);
+	if (ft_init_data (data, ac, av) != 0)
+		return (1);
 	*philo = (t_philo *)malloc (sizeof (t_philo) * (size_t)(*data)->philo_nb);
 	if (*philo == NULL)
-		return (FAILURE);
+		return (1);
 	(*philo)->fork = NULL;
-	if (ft_init_philo (philo, *data) != SUCCESS)
-		return (FAILURE);
-	return (SUCCESS);
+	if (ft_init_philo (philo, *data) != 0)
+		return (1);
+	return (0);
 }

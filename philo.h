@@ -13,14 +13,6 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-/* portability */
-# define _DEFAULT_SOURCE
-# define _GNU_SOURCE
-# define _BSD_SOURCE
-
-/*
- ** =========[ Includes ]==========
- */
 
 # include <pthread.h>
 # include <stdio.h>

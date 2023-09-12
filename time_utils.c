@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
 /*
  ** @brief          Return the elapsed time since EPOCH.
  **
